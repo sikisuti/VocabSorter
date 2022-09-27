@@ -6,8 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.vocabsorter.model.Topic;
 import org.vocabsorter.service.SubTopicsParser;
 import org.vocabsorter.service.TopicsParser;
-
-import java.io.IOException;
+import org.vocabsorter.service.WordsParser;
 
 import static com.github.tomakehurst.wiremock.client.WireMock.get;
 import static com.github.tomakehurst.wiremock.client.WireMock.ok;
@@ -22,10 +21,11 @@ import static org.vocabsorter.util.TestHelper.loadFile;
 class VocabClientIT {
   public static final int PORT = 8080;
   private final VocabClient client =
-      new VocabClient("http://localhost:" + PORT, new TopicsParser(), new SubTopicsParser());
+      new VocabClient(
+          "http://localhost:" + PORT, new TopicsParser(), new SubTopicsParser(), new WordsParser());
 
   @Test
-  void getTopicsForLevel() throws IOException {
+  void getTopicsForLevel() {
     var res = loadFile("responses/a1Topics.html");
     stubFor(get("/temak/a1.html").willReturn(ok().withBody(res)));
 
@@ -35,12 +35,23 @@ class VocabClientIT {
   }
 
   @Test
-  void getSubTopicsFor() throws IOException {
+  void getSubTopicsOfTopic() {
     var res = loadFile("responses/a1SubTopics1.html");
     stubFor(get("/temak/a1/tema/1.html").willReturn(ok().withBody(res)));
 
     var response = client.getSubTopicsOfTopic(Topic.builder().link("/temak/a1/tema/1.html").build());
 
     assertThat(response).hasSize(2);
+  }
+
+  @Test
+  void getWordsOfSubTopic() {
+    var res = loadFile("responses/a1SubTopics1Words.html");
+    stubFor(get("/temak/a1/tema/1/2/9/szavak.html").willReturn(ok().withBody(res)));
+
+    var response =
+        client.getWordsOfSubTopic(Topic.builder().link("/temak/a1/tema/1/2/9/szavak.html").build());
+
+    assertThat(response).hasSize(15);
   }
 }

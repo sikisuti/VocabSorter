@@ -8,4 +8,5 @@ import lombok.Value;
 public class Word {
   String nativeWord;
   String foreignWord;
+  String audioFile;
 }
