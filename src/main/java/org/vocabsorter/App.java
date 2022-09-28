@@ -1,14 +1,15 @@
 package org.vocabsorter;
 
+import lombok.extern.java.Log;
 import org.vocabsorter.client.VocabClient;
 import org.vocabsorter.service.SubTopicsParser;
 import org.vocabsorter.service.TopicsParser;
 import org.vocabsorter.service.WordService;
-import org.vocabsorter.service.WordsParser;
+import org.vocabsorter.service.WordsGroupParser;
 
 import static org.vocabsorter.constant.Level.A1;
 
-/** Hello world! */
+@Log
 public class App {
   public static void main(String[] args) {
     var vocabClient =
@@ -16,8 +17,9 @@ public class App {
             "https://www.angolszokincs.com",
             new TopicsParser(),
             new SubTopicsParser(),
-            new WordsParser());
+            new WordsGroupParser());
     var wordService = new WordService(vocabClient);
+    log.info("Gather started...");
     wordService.getWordsForLevel(A1);
   }
 }

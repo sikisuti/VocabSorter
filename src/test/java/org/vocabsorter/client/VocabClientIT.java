@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.vocabsorter.model.Topic;
 import org.vocabsorter.service.SubTopicsParser;
 import org.vocabsorter.service.TopicsParser;
-import org.vocabsorter.service.WordsParser;
+import org.vocabsorter.service.WordsGroupParser;
 
 import static com.github.tomakehurst.wiremock.client.WireMock.get;
 import static com.github.tomakehurst.wiremock.client.WireMock.ok;
@@ -22,7 +22,10 @@ class VocabClientIT {
   public static final int PORT = 8080;
   private final VocabClient client =
       new VocabClient(
-          "http://localhost:" + PORT, new TopicsParser(), new SubTopicsParser(), new WordsParser());
+          "http://localhost:" + PORT,
+          new TopicsParser(),
+          new SubTopicsParser(),
+          new WordsGroupParser());
 
   @Test
   void getTopicsForLevel() {

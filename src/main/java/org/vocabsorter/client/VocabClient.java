@@ -8,7 +8,7 @@ import org.vocabsorter.model.Topic;
 import org.vocabsorter.model.Word;
 import org.vocabsorter.service.SubTopicsParser;
 import org.vocabsorter.service.TopicsParser;
-import org.vocabsorter.service.WordsParser;
+import org.vocabsorter.service.WordsGroupParser;
 
 import java.util.List;
 
@@ -17,7 +17,7 @@ public class VocabClient {
   private final String host;
   private final TopicsParser topicsParser;
   private final SubTopicsParser subTopicsParser;
-  private final WordsParser wordsParser;
+  private final WordsGroupParser wordsGroupParser;
 
   public List<Topic> getTopicsOfLevel(Level level) {
     var topicsDoc = call(level.getTopicsPath());
@@ -31,14 +31,14 @@ public class VocabClient {
 
   public List<Word> getWordsOfSubTopic(Topic subTopic) {
     var wordsDoc = call(subTopic.getLink());
-    return wordsParser.parse(wordsDoc);
+    return wordsGroupParser.parse(wordsDoc);
   }
 
   private Document call(String path) {
     var url = host + path;
 
     try {
-      Thread.sleep(10000);
+      Thread.sleep(5000);
       return Jsoup.connect(url).get();
     } catch (Exception e) {
       throw new RuntimeException();

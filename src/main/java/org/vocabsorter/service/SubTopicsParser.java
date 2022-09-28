@@ -6,7 +6,6 @@ import org.vocabsorter.model.Topic;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 public class SubTopicsParser {
 
@@ -22,16 +21,15 @@ public class SubTopicsParser {
   private void parseSubTopics(Elements subTopicElements, List<Topic> topics) {
     subTopicElements.forEach(
         subTopicElement -> {
-          var subTopicLink = subTopicElement.select("a").first();
-          Optional.ofNullable(subTopicLink)
-              .ifPresent(
-                  link -> {
-                      topics.add(
-                          Topic.builder()
-                              .name(subTopicLink.wholeOwnText().replace("*", ""))
-                              .link(subTopicLink.attr("href"))
-                              .build());
-                  });
+          var subTopicLinks = subTopicElement.select("a");
+          subTopicLinks.forEach(
+              subTopicLink -> {
+                topics.add(
+                    Topic.builder()
+                        .name(subTopicLink.wholeOwnText().replace("*", ""))
+                        .link(subTopicLink.attr("href"))
+                        .build());
+              });
         });
   }
 }
