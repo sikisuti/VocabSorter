@@ -27,7 +27,7 @@ public class WordsGroupParser {
                 Word.builder()
                     .foreignWord(wordElement.select("span.be").first().wholeOwnText().trim())
                     .nativeWord(
-                        wordElement.select("td").get(2).text().replaceAll("\\(.+\\)", "").trim())
+                        wordElement.select("td").get(2).text().replaceAll("\\(.+?\\)", "").trim())
                     .audioFile(wordElement.select("source").first().attr("src").trim())
                     .build()));
   }

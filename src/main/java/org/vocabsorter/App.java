@@ -7,7 +7,7 @@ import org.vocabsorter.service.TopicsParser;
 import org.vocabsorter.service.WordService;
 import org.vocabsorter.service.WordsGroupParser;
 
-import static org.vocabsorter.constant.Level.A1;
+import static org.vocabsorter.constant.Level.A2;
 
 @Log
 public class App {
@@ -20,6 +20,6 @@ public class App {
             new WordsGroupParser());
     var wordService = new WordService(vocabClient);
     log.info("Gather started...");
-    wordService.getWordsForLevel(A1);
+    wordService.getWordsForLevel(A2);
   }
 }
