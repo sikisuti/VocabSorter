@@ -4,6 +4,7 @@ import com.opencsv.bean.CsvToBeanBuilder;
 import lombok.extern.java.Log;
 import org.jsoup.Jsoup;
 import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -41,6 +42,7 @@ class WordsGroupParserTest {
         });
   }
 
+  @Test
   @Disabled
   void constructSQL() throws IOException {
     var words = new ArrayList<Word>();
@@ -63,7 +65,7 @@ class WordsGroupParserTest {
     query.append(words.stream().map(Word::toString).collect(Collectors.joining(",\n")));
     query.append(";");
 
-    Files.write(Paths.get("insertWordsA2.sql"), query.toString().getBytes(UTF_8));
+    Files.write(Paths.get("insertWordsB1.sql"), query.toString().getBytes(UTF_8));
 
     assertThat(words).isNotEmpty();
   }
